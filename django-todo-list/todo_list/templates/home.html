@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}
+   | Home
+{% endblock title %}
+
+{% block content %}
+    {% load static %}
+
+    <!-- Link to home.css -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+
+    <!-- JavaScript functions -->
+    <script>
+        // Function to show color options for a card
+        function showColorOptions(cardId) {
+            var colorOptions = document.getElementById('colorOptions' + cardId);
+            colorOptions.style.display = colorOptions.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Function to change the color of a card and store it in local storage
+        function changeCardColor(color, cardId) {
+            var card = document.getElementById('card' + cardId);
+            card.classList.remove('pastel-pink', 'pastel-blue', 'pastel-green', 'pastel-yellow', 'pastel-purple', 'pastel-orange', 'pastel-cyan', 'pastel-brown');
+            card.classList.add(color);
+
+            // Store the color in local storage
+            localStorage.setItem('cardColor' + cardId, color);
+
+            // Hide color options after selection
+            var colorOptions = document.getElementById('colorOptions' + cardId);
+            colorOptions.style.display = 'none';
+        }
+
+        // Function to load stored colors from local storage
+        function loadStoredColors() {
+            var allCards = document.querySelectorAll('.card');
+            allCards.forEach(function(card) {
+                var cardId = card.id.replace('card', '');
+                var storedColor = localStorage.getItem('cardColor' + cardId);
+                if (storedColor) {
+                    // Remove all pastel color classes
+                    card.classList.remove('pastel-pink', 'pastel-blue', 'pastel-green', 'pastel-yellow', 'pastel-purple', 'pastel-orange', 'pastel-cyan', 'pastel-brown');
+                    // Add the stored color class
+                    card.classList.add(storedColor);
+                }
+            });
+        }
+
+        // Call the function to load stored colors when the page loads
+        window.addEventListener('load', loadStoredColors);
+    </script>
+
+    <div class="content">
+        <div class="form-container center-form">
+            <form class="form-inline" method="POST">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="To-Do Item" aria-label="Search" name="item" required>
+                <input class="form-control mr-sm-2" type="text" placeholder="Description" name="description">
+                <button class="btn btn-warning my-2 my-sm-0" type="submit">Add</button>
+            </form>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Congrats!</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Card view -->
+        <div class="row" id="card-view">
+            {% for thing in all_items %}
+                <div class="col-md-3">
+                    <div class="card {% if thing.completed %}bg-secondary{% endif %} pastel-brown {{ thing.color }}" id="card{{ thing.id }}">
+                        <div class="card-body {% if thing.completed %}completed-item{% endif %}">
+                            <h5 class="card-title">{{ thing.item }}</h5>
+                            <p class="card-description {% if thing.completed %}completed-item{% endif %}">
+                                {{ thing.description }}
+                            </p>
+                            <p class="card-text text-center {% if thing.completed %}completed-item{% endif %}">
+                                {% if thing.date %}
+                                    {{ thing.date }}
+                                {% endif %}
+                            </p>
+                            <div class="text-center">
+                                <div class="text-center">
+                                    <!-- Color selection icon -->
+                                    <i class="color-selector fas fa-paint-brush" onclick="showColorOptions('{{ thing.id }}')"></i>
+                                    <!-- Color options -->
+                                    <div id="colorOptions{{ thing.id }}" class="color-options">
+                                        <div class="color-option pastel-pink" onclick="changeCardColor('pastel-pink', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-blue" onclick="changeCardColor('pastel-blue', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-green" onclick="changeCardColor('pastel-green', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-yellow" onclick="changeCardColor('pastel-yellow', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-purple" onclick="changeCardColor('pastel-purple', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-orange" onclick="changeCardColor('pastel-orange', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-cyan" onclick="changeCardColor('pastel-cyan', '{{ thing.id }}')"></div>
+                                        <div class="color-option pastel-brown" onclick="changeCardColor('pastel-brown', '{{ thing.id }}')"></div>
+                                    </div>
+
+                                    {% if thing.completed %}
+                                        <a class="btn btn-primary" href="{% url 'uncross' thing.id %}">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-success" href="{% url 'cross_off' thing.id %}">
+                                            <i class="fas fa-spinner"></i>
+                                        </a>
+                                    {% endif %}
+
+                                    <a class="btn btn-warning" href="{% url 'edit' thing.id %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <!-- Delete icon -->
+                                    <a class="btn btn-danger" href="{% url 'delete' thing.id %}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

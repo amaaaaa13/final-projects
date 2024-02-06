@@ -1,0 +1,191 @@
+.card {
+    position: relative;
+    width: 15rem;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    text-align: center;
+    height: 15rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.completed-item {
+    text-decoration: line-through;
+}
+
+.center-form {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    margin-bottom: 40px;
+}
+
+.card-description {
+    font-size: 14px;
+    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    transition: scrollbar-color 0.5s;
+}
+
+.card-description::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-description::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+    transition: background-color 0.5s;
+}
+
+.card-description:hover::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+.card-description:hover {
+    scrollbar-color: transparent transparent;
+}
+
+.card-description:hover:hover {
+    scrollbar-color: #888 transparent;
+}
+
+.selected-card {
+    background-color: #ffcccb;
+}
+
+/* Add predefined color styles */
+.pastel-pink {
+    background-color: #ffb6c1;
+}
+
+.pastel-brown {
+    background-color: #f7e7b4;
+}
+
+.pastel-blue {
+    background-color: #aec6cf;
+}
+
+.pastel-green {
+    background-color: #98fb98;
+}
+
+.pastel-yellow {
+    background-color: #fdfd96;
+}
+
+.pastel-purple {
+    background-color: #dcb4eb;
+}
+
+.pastel-orange {
+    background-color: #ffb347;
+}
+
+.pastel-cyan {
+    background-color: #a2e4f5;
+}
+
+/* Color selection icon styles */
+.color-selector {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    /* Adjust the size as needed */
+    color: #333;
+    /* Set the color to match your design */
+}
+
+/* Color options styles */
+.color-options {
+    position: absolute;
+    top: 25px;
+    right: 5px;
+    display: none;
+    z-index: 1;
+}
+
+.color-option {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.list-group-item .item-actions {
+    display: flex;
+}
+
+.list-group-item .item-actions a {
+    margin-right: 10px;
+}
+
+.list-group {
+    display: none;
+    /* Initially hide the list view */
+}
+
+.view-toggle-icons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.view-toggle-icons i {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    /* Adjusted to column layout */
+}
+
+.list-card {
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.list-card .card-info {
+    display: table;
+    width: 100%;
+}
+
+.list-card .card-info h5,
+.list-card .card-info p {
+    display: table-cell;
+    padding-right: 10px;
+    /* Add spacing between title, description, and date */
+}
+
+.list-card .item-actions {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.list-card .item-actions a {
+    margin-right: 10px;
+}
